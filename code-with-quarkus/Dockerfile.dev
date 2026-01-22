@@ -1,0 +1,10 @@
+# Java 17 base image, matchar din setup
+FROM eclipse-temurin:17-jdk
+
+WORKDIR /workspace
+
+# Kopiera all kod till containern
+COPY . .
+
+# Kör Quarkus i dev mode
+CMD ["./mvnw", "quarkus:dev"]
