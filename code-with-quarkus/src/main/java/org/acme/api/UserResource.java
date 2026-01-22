@@ -23,7 +23,7 @@ public class UserResource {
 
     @POST
     public UserResponse createUser(UserRequest req) {
-        return UserResponse.fromEntity(service.create(req));
+        return UserResponse.UserResponsFromEntity(service.create(req));
     }
 
 }

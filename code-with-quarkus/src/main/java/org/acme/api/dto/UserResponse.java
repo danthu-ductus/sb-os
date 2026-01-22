@@ -9,7 +9,7 @@ public class UserResponse {
     public String username;
     public Instant createdAt;
 
-    public static UserResponse fromEntity(User u) {
+    public static UserResponse UserResponsFromEntity(User u) {
         UserResponse resp = new UserResponse();
         resp.userId = u.id;
         resp.username = u.username;
