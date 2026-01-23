@@ -1,7 +1,5 @@
 package org.acme.service;
 
-import java.util.Optional;
-
 import org.acme.api.dto.UserRequest;
 import org.acme.persistence.entity.User;
 import org.acme.persistence.repository.UserRepository;
