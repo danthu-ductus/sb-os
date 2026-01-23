@@ -1,13 +1,15 @@
 package org.acme.service;
 
+import java.util.Optional;
+
 import org.acme.api.dto.UserRequest;
 import org.acme.persistence.entity.User;
 import org.acme.persistence.repository.UserRepository;
 
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.BadRequestException;
+import jakarta.ws.rs.NotFoundException;
 
 @ApplicationScoped
 public class UserService {
@@ -23,7 +25,7 @@ public class UserService {
         String reqName = req.username; 
         
         if (reqName == null || reqName.isBlank()) {
-            throw new BadRequestException("Unvalid Username");
+            throw new BadRequestException("Invalid Username");
         }
         if (repo.userAlrdyExists(reqName)) {
             throw new BadRequestException("Username already exists");
@@ -34,4 +36,14 @@ public class UserService {
         repo.persist(user);
         return user; 
     }
+
+    public Long getUserIdByName(String username) {
+        if (username == null || username.isBlank()) {
+            throw new BadRequestException("Invalid Username");
+        }
+
+        return repo.queryForUserId(username)
+            .orElseThrow(() -> new NotFoundException("User does not exist")); 
+    }
+
 }

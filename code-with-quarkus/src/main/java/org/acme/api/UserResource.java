@@ -7,6 +7,7 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -53,5 +54,19 @@ public class UserResource {
         return UserResponse.UserResponsFromEntity(service.create(req));
         
     }
+
+    @GET
+    @Path("/getUserId")
+    @Operation(
+        summary = "retrieve a used id based on username"
+    )
+    public Long getUserId(@QueryParam("username") String username) {
+        UserRequest req = new UserRequest();
+        req.username = username;
+        return service.getUserIdByName(username);
+    }
+
+
+
 
 }
