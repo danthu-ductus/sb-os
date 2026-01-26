@@ -7,4 +7,5 @@ WORKDIR /workspace
 COPY . .
 
 # Kör Quarkus i dev mode
-CMD ["./mvnw", "quarkus:dev"]
+#CMD ["./mvnw", "quarkus:dev"]
+CMD ["java", "-jar", "target/quarkus-app/quarkus-run.jar"]
