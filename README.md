@@ -1,2 +1,12 @@
-# This is the demo repo we create for SpringBoot OpenShift
-simple demo project to learn the frameworks
+# Ductus demo project for: Quarkus, Cucumber:Gherkin and OpenShift
+Demo project to practice setting upp, developing and deploying applications.
+
+
+## Requirements
+something
+
+## Running
+something
+
+## Dev Note
+something

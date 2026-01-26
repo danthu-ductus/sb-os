@@ -14,3 +14,5 @@ public class GreetingResource {
         return "Hello from Quarkus REST";
     }
 }
+
+// this is the generated endpoint from the Quarkus getting started guid
