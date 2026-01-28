@@ -4,11 +4,7 @@ metadata:
   name: quarkus-app
 spec:
   source:
-    type: Git
-    git:
-      uri: https://github.com/danthu-ductus/sb-os.git
-      ref: dev/simple-playground
-    contextDir: code-with-quarkus
+    type: Binary      # <-- binary build
   strategy:
     type: Docker
     dockerStrategy:
