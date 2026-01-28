@@ -13,13 +13,11 @@ COPY src src
  
 # Run the build  
 RUN chmod +x mvnw
-RUN ./mvnw package -DskipTests -Dquarkus.package.type=fast-jar
+RUN ./mvnw package -DskipTests -Dquarkus.package.type=uber-jar
 
 # Stage 2: Runtime
 FROM eclipse-temurin:17-jdk
 WORKDIR /app
-# Copy fast-jar to runtime
-COPY --from=build /workspace/target/quarkus-app/quarkus-run.jar .
-COPY --from=build /workspace/target/quarkus-app/lib ./lib
+COPY --from=build /workspace/target/*-runner.jar ./quarkus-run.jar
 CMD ["java", "-jar", "quarkus-run.jar"]
 
