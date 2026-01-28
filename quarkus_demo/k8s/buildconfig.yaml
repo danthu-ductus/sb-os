@@ -14,7 +14,7 @@ spec:
     git:
       uri: https://github.com/danthu-ductus/sb-os.git
       ref: feature/img-build
-    contextDir: quarkus_demo
+    contextDir: /quarkus_demo
   strategy:
     type: Docker
     dockerStrategy:
