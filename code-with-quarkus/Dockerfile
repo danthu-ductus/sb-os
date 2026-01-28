@@ -4,12 +4,12 @@ FROM eclipse-temurin:17-jdk AS build
 WORKDIR /workspace
 COPY . .
 
-WORKDIR /workspace/code-with-quarkus
+# mvnw ligger nu i WORKDIR eftersom contextDir redan är code-with-quarkus
 RUN ./mvnw package -DskipTests
 
 # Stage 2: Runtime
 FROM eclipse-temurin:17-jdk
 WORKDIR /app
-COPY --from=build /workspace/code-with-quarkus/target/quarkus-app/quarkus-run.jar .
+COPY --from=build /workspace/target/quarkus-app/quarkus-run.jar .
 
 CMD ["java", "-jar", "quarkus-run.jar"]
