@@ -8,7 +8,7 @@ spec:
     git:
       uri: https://github.com/danthu-ductus/sb-os.git
       ref: dev/simple-playground
-    contextDir: code-with-quarkus   # subfolder med Dockerfile och mvnw
+    contextDir: code-with-quarkus
   strategy:
     type: Docker
     dockerStrategy:
