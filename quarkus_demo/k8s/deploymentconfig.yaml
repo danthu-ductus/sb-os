@@ -45,18 +45,18 @@ spec:
               value: "false"
             - name: QUARKUS_HIBERNATE_ORM_SCHEMA_MANAGEMENT_STRATEGY
               value: validate
-          # readinessProbe:
-          #   httpGet:
-          #     path: /q/health/ready
-          #     port: 8080
-          #   initialDelaySeconds: 5
-          #   periodSeconds: 5
-          # livenessProbe:
-          #   httpGet:
-          #     path: /q/health/live
-          #     port: 8080
-          #   initialDelaySeconds: 15
-          #   periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /q/health/ready
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /q/health/live
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 10
 ---
 apiVersion: v1
 kind: Service
