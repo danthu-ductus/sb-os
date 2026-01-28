@@ -3,7 +3,17 @@ FROM eclipse-temurin:17-jdk AS build
 WORKDIR /workspace
 COPY . .
 WORKDIR /workspace/code-with-quarkus
-RUN ./mvnw package -DskipTests
+# Copy Maven wrapper files  
+COPY mvnw .  
+COPY mvnw.cmd .  
+COPY .mvn .mvn  
+ 
+# Now copy pom.xml and source code (optional, but efficient for caching)  
+COPY pom.xml .  
+COPY src src  
+ 
+# Run the build  
+RUN ./mvnw package -DskipTests 
 
 # Stage 2: Runtime
 FROM eclipse-temurin:17-jdk
