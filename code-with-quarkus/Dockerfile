@@ -13,6 +13,7 @@ COPY pom.xml .
 COPY src src  
  
 # Run the build  
+RUN chmod +x mvnw
 RUN ./mvnw package -DskipTests 
 
 # Stage 2: Runtime
