@@ -1,0 +1,19 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: quarkus-app
+spec:
+  source:
+    type: Git
+    git:
+      uri: https://github.com/danthu-ductus/sb-os.git
+      ref: dev/simple-playground
+    contextDir: code-with-quarkus   # subfolder med Dockerfile och mvnw
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: Dockerfile
+  output:
+    to:
+      kind: ImageStreamTag
+      name: quarkus-app:latest

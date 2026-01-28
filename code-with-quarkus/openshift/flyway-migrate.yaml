@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: flyway-migrate
+spec:
+  template:
+    spec:
+      containers:
+      - name: flyway
+        image: flyway/flyway:latest
+        args: ["migrate"]
+        env:
+          - name: FLYWAY_URL
+            value: jdbc:postgresql://db:5432/quarkus
+          - name: FLYWAY_USER
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: POSTGRESQL_USER
+          - name: FLYWAY_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: POSTGRESQL_PASSWORD
+          - name: FLYWAY_LOCATIONS
+            value: filesystem:/flyway/sql
+        volumeMounts:
+          - name: sql
+            mountPath: /flyway/sql
+      restartPolicy: Never
+      volumes:
+        - name: sql
+          configMap:
+            name: flyway-sql

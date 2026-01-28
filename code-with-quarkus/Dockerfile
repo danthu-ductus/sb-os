@@ -1,11 +1,11 @@
-# Java 17 base image, matchar din setup
-FROM eclipse-temurin:17-jdk
-
+# Stage 1: Build
+FROM eclipse-temurin:17-jdk AS build
 WORKDIR /workspace
-
-# Kopiera all kod till containern
 COPY . .
+RUN ./mvnw package -DskipTests
 
-# Kör Quarkus i dev mode
-#CMD ["./mvnw", "quarkus:dev"]
-CMD ["java", "-jar", "target/quarkus-app/quarkus-run.jar"]
+# Stage 2: Runtime
+FROM eclipse-temurin:17-jdk
+WORKDIR /app
+COPY --from=build /workspace/target/quarkus-app/quarkus-run.jar .
+CMD ["java", "-jar", "quarkus-run.jar"]
