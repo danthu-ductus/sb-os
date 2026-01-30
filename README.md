@@ -102,37 +102,37 @@ DevMode, run the services inside docker containers (you will have to rebuild bet
 * Run the containers (DB start, DB migrate, Quarkus app): `docker compose up --build`
 
 ### OpenShift Cluster Mode:
-Start your cluster and open the web-console to be able to monitor the cluster easily. The project view can be found through clicks: `Home -> Projects -> <your project name> -> Workloads`. This view shows only the pods and workloads created within your project and makes it easier to follow deployments, jobs, and rollouts.
+Start your cluster and open the web-console to monitor the cluster easily. An overview can be found through clicking: `Home -> Projects -> <your project name> -> Workloads`. This shows only the pods and workloads created within your project, and makes it easier to monitor everything.
 
-The creators of this repository have set up the cluster using Kubernetes/OpenShift manifests. In particular a deploymentconfig which is deprecated practice but it suited the demo well in the start, this can be read about in Chapter-4.3 in the [OpenShift - Guide](https://openshift.guide/openshift-guide-screen.pdf). It is seen as best practice to use a  GitOps-based approach like **Argo CD** for continuous delivery, enabling automated and declarative updates of the application and database.
+The creators of this repository have set up the cluster using Kubernetes/OpenShift manifests. In particular a deploymentconfig manifest which is deprecated practice, but well suited as a start for the demo. This can be read about in Chapter-4.3 in the [OpenShift - Guide](https://openshift.guide/openshift-guide-screen.pdf). It is seen as best practice to use a GitOps-based approach like **Argo CD** for continuous delivery (CD), enabling automated and declarative updates of the application and database. However, this ahsn't been introduced by the creators of the project and will not be covered here. It might still be worth adding if you have the time for it.
 
+* First we check that we are inside the correct OpenShift project: `oc project` -> should return "project name", else switch to it.
 
+* Start the database pod: `oc apply -f k8s/postgres.yaml`, check in the OpenShift console if the pod has started and that you can access the terminal, you should be able to access the psql db from its cli with the credentials set in the `postgres.yaml` manifest you just applied.
 
-## Dev Notes
-* There are some really good Quarkus guide on how to do different stuff: `https://quarkus.io/guides/`
-* The default swagger ui url is: `http://localhost:8080/q/swagger-ui`
-* Do you want to check that something u POST actually will persist in the DB? Then you can do the following to access the DB cli inside the container:
-    ```
-    PS> docker compose exec postgres-db psql -U demo -d demo
-    > \dt //\dt will list tables
+* Make a configmap for the flyway migration before applying the flyway job, `oc create configmap flyway-sql --from-file=src/main/resources/db/migration`. Without this the flyway manifest won't be able to set up the tables as described in every 'Vy__xxx'.
 
-                List of relations
-    Schema |         Name          | Type  | Owner
-    --------+-----------------------+-------+-------
-    public | flyway_schema_history | table | demo
-    public | users                 | table | demo
+    __NOTE__ This is a step that could be implemented in another way, maybe as a sub-job that run when applying the postgres manifest this might be a good exercise to implement if you would like to practice implementing kubernetes objects? 
+
+* Next you apply the flyway migration through a OpenShift job, which sets up the correct database tables, `oc apply -f k8s/flyway-job.yaml`.
+
+* Build the image for the app, from the repository, using the buildconfig yaml manifest: `oc apply -f k8s/buildconfig.yaml`. If you check the `k8s/buildconfig.yaml` you can set the repo url and the target branch that the image is built from.
+
+* When you can see that the pod for the app have a 'Running' status in the OpenShift web-console, you should now be able to run the `oc get routes` to extract the url where you can reach your application endpoints.
 
 
-    > SELECT * FROM users; // will list all the users in the table
+## Continue Contributing to the Demo
 
-    > \q // exit
-    ````
+This demo was crated created to practice using the tools to implement Java applications with Quarkus running in an OpenShift cluster. However this is still not fully realistic due to there being only a few dummy endpoints. No realistic testing pipelines and only one OpenShift cluster with two running pods. But hopefully, following these steps, you have familiarized yourself with the tools.
 
-
-
-## Requirements
-something
+As stated earlier, contribute to the project if you think there are some changes that should be made. Or that something should be added to make this more realistic, or generally improve any of the steps. Maybe you think that there should be a more solid deployment pipeline running ArgoCD or maybe you'd like to practice Ghurking tests? Then please create a PR, or post an issue about it for future developments to the demo.
 
 
-## Dev Note
-something
+## References
+This is a list of the docs that the creators have used during the creation of the demo:
+* [Quarkus - Get Started](https://quarkus.io/get-started/)
+* [Quarkus - Guide](https://quarkus.io/guides)
+* [Quarkus - Qickstart Git](https://github.com/quarkusio/quarkus-quickstarts/tree/main)
+* [OpenShift - Guide](https://openshift.guide)
+* [Kubernetes - Docs](https://kubernetes.io/docs/home/), really nice when you get to know manifests.
+* [Redhat - Containers](https://catalog.redhat.com/en/search?searchType=containers), nice to find images for rhel with different versions.
