@@ -138,5 +138,5 @@ This is a list of the docs that the creators have used during the creation of th
 * [Redhat - Containers](https://catalog.redhat.com/en/search?searchType=containers), nice to find images for rhel with different versions.
 
 ## Creators to reach out to if you have any questions
-Daniel Thungren - daniel.thungren@ductus.se
+Daniel Thungren - daniel.thungren@ductus.se \
 Jacob Möller    - jacob.moller@ductus.se
