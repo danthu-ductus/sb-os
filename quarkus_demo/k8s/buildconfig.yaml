@@ -1,0 +1,25 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: quarkus-app
+---
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: quarkus-app
+spec:
+  runPolicy: Serial
+  source:
+    type: Git
+    git:
+      uri: https://github.com/danthu-ductus/sb-os.git
+      ref: feature/img-build
+    contextDir: quarkus_demo
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: Dockerfile.openshift
+  output:
+    to:
+      kind: ImageStreamTag
+      name: quarkus-app:latest
