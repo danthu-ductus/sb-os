@@ -127,6 +127,14 @@ This demo was crated created to practice using the tools to implement Java appli
 
 As stated earlier, contribute to the project if you think there are some changes that should be made. Or that something should be added to make this more realistic, or generally improve any of the steps. Maybe you think that there should be a more solid deployment pipeline running ArgoCD or maybe you'd like to practice Ghurking tests? Then please create a PR, or post an issue about it for future developments to the demo.
 
+### Suggestions
+
+* Add a Spring-Boot Service that resembles the Quarkus app, for example a service that can put text files into a new psql table for present users, this new table cna probably be created through Entity mappings or migration-jobs as in the Quarkus demo.
+
+* Add an ArgoCD deployment pipeline that checks tests and builds an image from the git repo.
+
+* Add some endpoints that we can add dummy issues/bugs in and make it so we can live debug against the running pod. It is a great feture of OpenShift where one can connect a port between the local running app and a pod. This give near to real prod debugging (ofc in real systems there should be a dev/dbg pod running a dummy instance of the app that should be used for this).
+
 
 ## References
 This is a list of the docs that the creators have used during the creation of the demo:
